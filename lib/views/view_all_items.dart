@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food_recipe_app/data/recipes.dart';
+import 'package:food_recipe_app/data/recipes_data.dart';
+import 'package:food_recipe_app/models/recipe_model.dart';
 import 'package:food_recipe_app/utils/app_colors.dart';
 import 'package:food_recipe_app/widgets/food_items_display.dart';
 import 'package:food_recipe_app/widgets/my_icon_button.dart';
@@ -13,6 +14,8 @@ class ViewAllItems extends StatefulWidget {
 }
 
 class _ViewAllItemsState extends State<ViewAllItems> {
+  final List<Recipe> allRecipes = getRecipes();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +48,7 @@ class _ViewAllItemsState extends State<ViewAllItems> {
           children: [
             SizedBox(height: 10),
             GridView.builder(
-              itemCount: recipes.length,
+              itemCount: getRecipes().length,
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -53,7 +56,7 @@ class _ViewAllItemsState extends State<ViewAllItems> {
                 childAspectRatio: 0.74,
               ),
               itemBuilder: (context, index) {
-                final recipe = recipes[index];
+                Recipe recipe = allRecipes[index];
                 return Column(
                   children: [
                     FoodItemsDisplay(recipes: recipe),
@@ -62,13 +65,13 @@ class _ViewAllItemsState extends State<ViewAllItems> {
                         Icon(Iconsax.star1, color: Colors.amberAccent),
                         SizedBox(width: 5),
                         Text(
-                          "${recipe["rating"]}",
+                          recipe.rating,
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text("/5"),
                         SizedBox(width: 5),
                         Text(
-                          "${recipe['review'].toString()} Reviews",
+                          "${recipe.review.toString()} Reviews",
                           style: TextStyle(color: Colors.grey),
                         ),
                       ],

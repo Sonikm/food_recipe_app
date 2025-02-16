@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_recipe_app/data/categories_data.dart';
-import 'package:food_recipe_app/data/recipes.dart';
+import 'package:food_recipe_app/data/recipes_data.dart';
+import 'package:food_recipe_app/models/recipe_model.dart';
 import 'package:food_recipe_app/utils/app_colors.dart';
 import 'package:food_recipe_app/views/view_all_items.dart';
 import 'package:food_recipe_app/widgets/banner.dart';
@@ -16,14 +17,18 @@ class MyAppHomeScreen extends StatefulWidget {
 }
 
 class _MyAppHomeScreenState extends State<MyAppHomeScreen> {
-  List recipeCategories = categorisData;
+  late final List<Recipe> allRecipes = getRecipes();
+  List<Recipe> filteredRecipes = [];
   String currentCategory = "All";
 
-  List filterableRecipes = recipes;
+  @override
+  void initState() {
+    super.initState();
+    filteredRecipes = allRecipes; // Show all recipes initially
+  }
 
   @override
   Widget build(BuildContext context) {
-    // print("filterable:  ${filterableRecipes}");
     return Scaffold(
       backgroundColor: AppColors.kbackgroundColor,
       body: SafeArea(
@@ -49,7 +54,6 @@ class _MyAppHomeScreenState extends State<MyAppHomeScreen> {
                         ),
                       ),
                     ),
-
                     selectCategory(),
                     SizedBox(height: 10),
 
@@ -66,7 +70,6 @@ class _MyAppHomeScreenState extends State<MyAppHomeScreen> {
                         ),
                         TextButton(
                           onPressed: () {
-                            // we have to make a function later
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (_) => ViewAllItems()),
@@ -92,7 +95,7 @@ class _MyAppHomeScreenState extends State<MyAppHomeScreen> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children:
-                        filterableRecipes
+                        filteredRecipes
                             .map((e) => FoodItemsDisplay(recipes: e))
                             .toList(),
                   ),
@@ -110,38 +113,39 @@ class _MyAppHomeScreenState extends State<MyAppHomeScreen> {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: List.generate(
-          recipeCategories.length,
+          categoriesData.length,
           (index) => GestureDetector(
             onTap: () {
               setState(() {
-                currentCategory = recipeCategories[index];
-                filterableRecipes =
-                    currentCategory == "All"
-                        ? recipes
-                        : recipes
+                currentCategory = categoriesData[index].name;
+
+                // Filter recipes based on category
+                filteredRecipes =
+                    currentCategory == 'All'
+                        ? allRecipes
+                        : allRecipes
                             .where(
-                              (recipe) => recipe['category'] == currentCategory,
+                              (recipe) => recipe.category == currentCategory,
                             )
                             .toList();
               });
             },
-
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25),
                 color:
-                    recipeCategories[index] == currentCategory
+                    categoriesData[index].name == currentCategory
                         ? AppColors.kBannerColor
                         : Colors.white,
               ),
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               margin: EdgeInsets.only(right: 20),
               child: Text(
-                "${categorisData[index]} ",
+                categoriesData[index].name,
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   color:
-                      recipeCategories[index] == currentCategory
+                      categoriesData[index].name == currentCategory
                           ? Colors.white
                           : Colors.grey.shade600,
                 ),

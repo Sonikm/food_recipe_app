@@ -58,7 +58,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
                               image: DecorationImage(
-                                image: AssetImage(favoriteRecipe['img']),
+                                image: AssetImage(favoriteRecipe.img),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -69,7 +69,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                favoriteRecipe['name'],
+                                favoriteRecipe.name,
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -85,7 +85,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                     color: Colors.grey,
                                   ),
                                   Text(
-                                    "${favoriteRecipe['cal']} Cal",
+                                    "${favoriteRecipe.cal} Cal",
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.grey,
@@ -104,7 +104,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                     color: Colors.grey,
                                   ),
                                   Text(
-                                    "${favoriteRecipe['time']}",
+                                    favoriteRecipe.time,
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.grey,

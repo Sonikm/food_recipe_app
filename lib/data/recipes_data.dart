@@ -1,4 +1,6 @@
-const List recipes = [
+import 'package:food_recipe_app/models/recipe_model.dart';
+
+const List<Map<String, dynamic>> recipesJson = [
   {
     "id": 1,
     "cal": 100,
@@ -159,3 +161,7 @@ const List recipes = [
     "ingredientsAmounts": [2, 1],
   },
 ];
+
+List<Recipe> getRecipes() {
+  return recipesJson.map((json) => Recipe.fromJson(json)).toList();
+}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_recipe_app/models/recipe_model.dart';
 import 'package:food_recipe_app/provider/favorite_provider.dart';
 import 'package:food_recipe_app/provider/quantity_provider.dart';
 import 'package:food_recipe_app/utils/app_colors.dart';
@@ -8,7 +9,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 
 class RecipeDetailsScreen extends StatefulWidget {
-  final Map<String, dynamic> recipes;
+  final Recipe recipes;
   const RecipeDetailsScreen({super.key, required this.recipes});
 
   @override
@@ -22,7 +23,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       List<double> baseAmounts =
-          widget.recipes['ingredientsAmounts']
+          widget.recipes.ingredientsAmounts
               .map<double>((amount) => double.parse(amount.toString()))
               .toList();
 
@@ -47,13 +48,13 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
             Stack(
               children: [
                 Hero(
-                  tag: widget.recipes['img'],
+                  tag: widget.recipes.img,
                   child: Container(
                     height: MediaQuery.of(context).size.height / 2.1,
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: AssetImage(widget.recipes['img']),
+                        image: AssetImage(widget.recipes.img),
                       ),
                     ),
                   ),
@@ -105,7 +106,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.recipes['name'],
+                    widget.recipes.name,
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 10),
@@ -113,7 +114,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                     children: [
                       Icon(Iconsax.flash_1, size: 20, color: Colors.grey),
                       Text(
-                        "${widget.recipes['cal']} Cal",
+                        "${widget.recipes.cal} Cal",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
@@ -130,7 +131,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                       Icon(Iconsax.clock, size: 20, color: Colors.grey),
                       const SizedBox(width: 5),
                       Text(
-                        "${widget.recipes['time']}",
+                        widget.recipes.time,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.grey,
@@ -145,13 +146,13 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                       Icon(Iconsax.star1, color: Colors.amberAccent),
                       SizedBox(width: 5),
                       Text(
-                        "${widget.recipes["rating"]}",
+                        widget.recipes.rating,
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Text("/5"),
                       SizedBox(width: 5),
                       Text(
-                        "${widget.recipes['review'].toString()} Reviews",
+                        "${widget.recipes.review.toString()} Reviews",
                         style: TextStyle(color: Colors.grey),
                       ),
                     ],
@@ -196,7 +197,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                           // ingredients image
                           Column(
                             children:
-                                widget.recipes['ingredientsImage']
+                                widget.recipes.ingredientsImage
                                     .map<Widget>(
                                       (imageUrl) => Container(
                                         height: 60,
@@ -219,7 +220,7 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                           // ingredients Names
                           Column(
                             children:
-                                widget.recipes['ingredientsName']
+                                widget.recipes.ingredientsName
                                     .map<Widget>(
                                       (name) => Container(
                                         height: 60,

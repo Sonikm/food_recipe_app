@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:food_recipe_app/models/recipe_model.dart';
 
 class FavoriteProvider extends ChangeNotifier {
-  final List<Map<String, dynamic>> _favoriteRecipes = [];
+  final List<Recipe> _favoriteRecipes = [];
 
-  List<Map<String, dynamic>> get favorites => _favoriteRecipes;
+  List<Recipe> get favorites => _favoriteRecipes;
 
   // Toggle favorite product state
-  void toggleFavorite(Map<String, dynamic> product) {
-    String productId = product['id'].toString();
+  void toggleFavorite(Recipe product) {
+    String productId = product.id.toString();
 
-    if (_favoriteRecipes.any(
-      (recipe) => recipe['id'].toString() == productId,
-    )) {
+    if (_favoriteRecipes.any((recipe) => recipe.id.toString() == productId)) {
       _favoriteRecipes.removeWhere(
-        (recipe) => recipe['id'].toString() == productId,
+        (recipe) => recipe.id.toString() == productId,
       );
     } else {
       _favoriteRecipes.add(product);
@@ -23,9 +22,9 @@ class FavoriteProvider extends ChangeNotifier {
   }
 
   // Check if product exists in favorites
-  bool isExist(Map<String, dynamic> product) {
+  bool isExist(Recipe product) {
     return _favoriteRecipes.any(
-      (recipe) => recipe['id'].toString() == product['id'].toString(),
+      (recipe) => recipe.id.toString() == product.id.toString(),
     );
   }
 }

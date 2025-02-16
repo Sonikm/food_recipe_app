@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:food_recipe_app/models/recipe_model.dart';
 import 'package:food_recipe_app/provider/favorite_provider.dart';
 import 'package:food_recipe_app/views/recipe_details_screen.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 
 class FoodItemsDisplay extends StatefulWidget {
-  final Map<String, dynamic> recipes;
+  final Recipe recipes;
   const FoodItemsDisplay({super.key, required this.recipes});
 
   @override
@@ -13,6 +14,7 @@ class FoodItemsDisplay extends StatefulWidget {
 }
 
 class _FoodItemsDisplayState extends State<FoodItemsDisplay> {
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<FavoriteProvider>(context);
@@ -36,14 +38,14 @@ class _FoodItemsDisplayState extends State<FoodItemsDisplay> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Hero(
-                  tag: widget.recipes['img'],
+                  tag: widget.recipes.img,
                   child: Container(
                     width: double.infinity,
                     height: 160,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       image: DecorationImage(
-                        image: AssetImage(widget.recipes['img']),
+                        image: AssetImage(widget.recipes.img),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -51,7 +53,7 @@ class _FoodItemsDisplayState extends State<FoodItemsDisplay> {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  widget.recipes['name'],
+                  widget.recipes.name,
                   maxLines: 1,
                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                 ),
@@ -61,7 +63,7 @@ class _FoodItemsDisplayState extends State<FoodItemsDisplay> {
                   children: [
                     Icon(Iconsax.flash_1, size: 16, color: Colors.grey),
                     Text(
-                      "${widget.recipes['cal']} Cal",
+                      "${widget.recipes.cal} Cal",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 12,
@@ -78,7 +80,7 @@ class _FoodItemsDisplayState extends State<FoodItemsDisplay> {
                     Icon(Iconsax.clock, size: 16, color: Colors.grey),
                     const SizedBox(width: 5),
                     Text(
-                      "${widget.recipes['time']}",
+                      widget.recipes.time,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.grey,
